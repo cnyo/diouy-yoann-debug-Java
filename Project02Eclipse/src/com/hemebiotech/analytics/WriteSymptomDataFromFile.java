@@ -5,26 +5,30 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Simple brute force implementation
+ * ISymptomWriter implementation
  *
  */
 public class WriteSymptomDataFromFile implements ISymptomWriter {	
 	
-    @Override
-    public void writeSymptoms(Map<String, Integer> symptoms) {
-        try {
-            FileWriter writer = new FileWriter ("result.out");
-        
-            for (Map.Entry<String, Integer> entry : symptoms.entrySet()) {
-                System.out.println(entry.getKey() + " : " + entry.getValue());
-                writer.write(entry.getKey() + " : " + entry.getValue() + "\n"); 
-            }
+        /**
+         * Write the result by symptom in a file
+         * 
+         * @param symptoms a Map with total for each symptom
+         * @param filePath a full or partial path to the destination file for the symptom count result, one per line
+         * @throws IOException 
+         */
+        @Override
+        public void writeSymptoms(Map<String, Integer> symptoms, String filePath) throws IOException {
+                FileWriter writer = new FileWriter (filePath);
 
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+                try {
+                        for (Map.Entry<String, Integer> entry : symptoms.entrySet()) {
+                            writer.write(entry.getKey() + " : " + entry.getValue() + "\n"); 
+                        }
+                } catch (IOException e) {
+                        e.printStackTrace();
+                } finally {
+                        writer.close();
+                }
         }
-       
-    }
-
 }
