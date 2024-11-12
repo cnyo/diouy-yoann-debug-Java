@@ -1,7 +1,5 @@
 package com.hemebiotech.analytics;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +27,8 @@ public class AnalyticsCounter {
         /**
          * 
          * @return return a List of symptom names
-         * @throws FileNotFoundException
-         * @throws IOException 
          */
-        public List<String> getSymptoms() throws FileNotFoundException, IOException {
+        public List<String> getSymptoms() {
                 return reader.getSymptoms();
         }
 
@@ -44,12 +40,12 @@ public class AnalyticsCounter {
         public Map<String, Integer> countSymptoms(List<String> symptoms) {
                 Map<String, Integer> mapSymptoms = new HashMap<String, Integer>();
 
-                for (int i = 0; i < symptoms.size(); i++) {
+                for (String symptomName : symptoms) {
                         int symptomCount = 1;
-                        String symptomName = symptoms.get(i);
 
                         if (mapSymptoms.containsKey(symptomName)) {
-                                symptomCount = mapSymptoms.get(symptomName); symptomCount++;
+                                symptomCount = mapSymptoms.get(symptomName);
+                                symptomCount++;
                         }
                         mapSymptoms.put(symptomName, symptomCount);
                 }
@@ -74,10 +70,8 @@ public class AnalyticsCounter {
          * write the result of the symptom count to a file
          * 
          * @param symptoms a Map with total for each symptom
-         * @param filePath a full or partial path to the destination file for the symptom count result, one per line
-         * @throws IOException 
          */
-        public void writeSymptoms (Map<String, Integer> symptoms, String filePath) throws IOException {
-                this.writer.writeSymptoms(symptoms, filePath);
+        public void writeSymptoms (Map<String, Integer> symptoms) {
+                this.writer.writeSymptoms(symptoms);
         }
 }
